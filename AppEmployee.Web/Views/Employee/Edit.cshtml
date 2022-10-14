@@ -1,0 +1,46 @@
+﻿@model EmployeeViewModel
+
+<h1>Edit</h1>
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Emp_ID" />
+                <label asp-for="Emp_FirstName" class="control-label"></label>
+                <input asp-for="Emp_FirstName" class="form-control" />
+                <span asp-validation-for="Emp_FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emp_LastName" class="control-label"></label>
+                <input asp-for="Emp_LastName" class="form-control" />
+                <span asp-validation-for="Emp_LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emp_Phone" class="control-label"></label>
+                <input asp-for="Emp_Phone" class="form-control" placeholder="(XXX) XXX-XXXX" />
+                <span asp-validation-for="Emp_Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emp_Zip" class="control-label"></label>
+                <input asp-for="Emp_Zip" class="form-control" />
+                <span asp-validation-for="Emp_Zip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emp_HireDate" class="control-label"></label>
+                <input asp-for="Emp_HireDate" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                <span asp-validation-for="Emp_HireDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

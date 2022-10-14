@@ -1,0 +1,134 @@
+﻿@model IEnumerable<EmployeeViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<form asp-action="Index" method="get">
+    <div class="input-group mb-3 w-50">
+        <input type="text" name="SearchString" class="form-control small" placeholder=" Search by LastName or Phone" value="@ViewBag.search" />
+        <div class="input-group-append">
+            <input type="submit" class="btn btn-info" value="Search" />
+        </div>
+    </div>
+</form>
+
+<table class="table Datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_Zip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_HireDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Emp_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Emp_FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Emp_LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Emp_Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Emp_Zip)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Emp_HireDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Emp_ID">Edit</a> |
+                    <a style="cursor:pointer" onclick="deleteConfirm('@item.Emp_ID')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<!--bootstra pop up confirmation dialog-->
+<div class="modal fade" id="delete-conformation" tabindex="-1" role="dialog" aria-labelledby="deleteconformation">
+    <div class="modal-dialog" style="width:501px !important;margin:0 auto;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="delete-conformation">
+                    Eliminar
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span>
+                                ¿Esta seguro de eliminar el registro?
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-danger" value="Delete" onclick="deleteData()" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+
+        var deleteValue = 0;
+        var deleteConfirm = function (val) {
+            deleteValue = val;
+            $('#delete-conformation').modal('show');
+        }
+        var deleteData = function () {
+            var id = deleteValue;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Delete","Employee")',
+                data:{id: id},
+                success: function (result) {
+                    $("#delete-conformation").modal('hide');
+                    document.location.reload(true)
+                },
+                error: function () {
+                    $("#delete-conformation").modal('hide');
+                    document.location.reload(true)
+                }
+            });
+            deleteValue = 0;
+       }
+
+    </script>
+}
